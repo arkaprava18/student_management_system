@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 if (!isset($_SESSION['uid'])) {
     header('location:../login.php');
@@ -155,7 +156,7 @@ include('titlehead.php');
     if (isset($_POST['submit'])) {
         include('../dbcon.php');
         $rollno = $_POST['rollno'];
-        $name = $_POST['name'];
+        $name = ucwords(strtolower(trim($_POST['name']))); // Capitalize the first letter of each word
         $city = $_POST['city'];
         $pcon = $_POST['pcon'];
         $std = $_POST['std'];
@@ -163,7 +164,7 @@ include('titlehead.php');
         $tempname = $_FILES['simg']['tmp_name'];
 
         // Check for duplicate roll number in the same standard
-        $checkqry = "SELECT * FROM `student` WHERE `rollno`='$rollno' AND `standerd`='$std'";
+        $checkqry = "SELECT * FROM student WHERE rollno='$rollno' AND standerd='$std'";
         $checkresult = mysqli_query($con, $checkqry);
 
         if (mysqli_num_rows($checkresult) > 0) {
@@ -171,7 +172,7 @@ include('titlehead.php');
         } else {
             move_uploaded_file($tempname, "../dataimg/$imagename");
 
-            $qry = "INSERT INTO `student`(`rollno`, `name`, `city`, `pcont`, `standerd`, `image`) VALUES ('$rollno','$name','$city','$pcon','$std','$imagename')";
+            $qry = "INSERT INTO student(rollno, name, city, pcont, standerd, image) VALUES ('$rollno','$name','$city','$pcon','$std','$imagename')";
             $result = mysqli_query($con, $qry);
             if ($result) {
                 echo "<script>alert('Data Inserted Successfully.');</script>";

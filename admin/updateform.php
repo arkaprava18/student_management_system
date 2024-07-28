@@ -148,7 +148,7 @@ $data = mysqli_fetch_assoc($run);
                     <tr>
                         <th>Current Image</th>
                         <td>
-                            <?php if ($data['image']) { ?>
+                            <?php if (!empty($data['image'])) { ?>
                                 <img src="../dataimg/<?php echo htmlspecialchars($data['image']); ?>" class="img-preview" alt="Current Image">
                             <?php } else { ?>
                                 <p>No image available</p>

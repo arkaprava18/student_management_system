@@ -1,26 +1,43 @@
 <?php
-include('../dbcon.php');
-$rollno = $_POST['rollno'];
-$name = $_POST['name'];
-$city = $_POST['city'];
-$pcon = $_POST['pcon'];
-$std = $_POST['std'];
-$id = $_POST['sid'];
-$imagename = $_FILES['simg']['name'];
-$tempname = $_FILES['simg']['tmp_name'];
+session_start();
+if (!isset($_SESSION['uid'])) {
+    header('location:../login.php');
+    exit();
+}
 
-move_uploaded_file($tempname, "../dataimg/$imagename");
+if (isset($_POST['submit'])) {
+    include('../dbcon.php');
 
-$qry = "UPDATE `student` SET `rollno` = '$rollno', `name` = '$name', `city` = '$city', `pcont` = '$pcon', `standerd` = '$std', `image` = '$imagename' WHERE `id` = $id;";
+    $id = $_POST['sid'];
+    $rollno = $_POST['rollno'];
+    $name = ucwords(strtolower(trim($_POST['name']))); // Capitalize the first letter of each word
+    $city = $_POST['city'];
+    $pcon = $_POST['pcon'];
+    $std = $_POST['std'];
+    $imagename = $_FILES['simg']['name'];
+    $tempname = $_FILES['simg']['tmp_name'];
 
-$result = mysqli_query($con, $qry);
-if ($result) {
-    echo "<script>alert('Data Updated Successfully.');
-    window.location.href = 'updateform.php?sid=$id';
-    </script>";
-} else {
-    echo "<script>alert('Data Update Failed.');
-    window.location.href = 'updateform.php?sid=$id';
-    </script>";
+    if ($imagename) {
+        move_uploaded_file($tempname, "../dataimg/$imagename");
+        $sql = "UPDATE `student` SET `rollno`='$rollno', `name`='$name', `city`='$city', `pcont`='$pcon', `standerd`='$std', `image`='$imagename' WHERE `id`='$id'";
+    } else {
+        $sql = "UPDATE `student` SET `rollno`='$rollno', `name`='$name', `city`='$city', `pcont`='$pcon', `standerd`='$std' WHERE `id`='$id'";
+    }
+
+    $run = mysqli_query($con, $sql);
+    if ($run) {
+        ?>
+        <script>
+            alert('Data Updated Successfully.');
+            window.open('updateform.php?sid=<?php echo $id; ?>', '_self');
+        </script>
+        <?php
+    } else {
+        ?>
+        <script>
+            alert('Data Update Failed.');
+        </script>
+        <?php
+    }
 }
 ?>
