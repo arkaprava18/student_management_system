@@ -1,0 +1,29 @@
+.admintitle {
+    background-color: #003d7e; /* Dark blue background */
+    text-align: center;
+    color: #fff; /* White text color */
+    margin-left: 50px;
+    margin-right: 50px;
+    height: 140px;
+    line-height: 140px;
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+/* .dashboard {
+    background-color: #0056b3;
+    color: #fff; 
+    margin-left: 50px;
+    margin-right: 50px;
+    height: auto; 
+    padding: 20px; 
+    font-size: 25px;
+    border-radius: 8px; 
+    text-align: center;
+} */
+
+body {
+    background-color: #e0f7fa; /* Light blue background */
+    /* background: url('../images/08xu0ouu.png') no-repeat center center fixed; */
+    margin: 0;
+    padding: 0;
+}
